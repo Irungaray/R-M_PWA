@@ -1,39 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
+
+import "./styles/Characters.css"
 
 const Characters = () => {
-    const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState([]);
 
-    const getCharacters = async () => {
-        try {
-            let characterList = await axios({
-                url: 'https://anapioficeandfire.com/api/characters?pageSize=30',
-                method: 'GET',
-            });
+  useEffect(() => {
+    fetch('https://rickandmortyapi.com/api/character/')
+      .then(response => response.json())
+      .then(data => setCharacters(data.results))
+      .catch(error => console.warn("Error in fetch:", error))
+  }, []);
 
-            console.log(characterList.data)
-        } catch (error) {
-            console.log('Error in fetch:', error);
-        }
-    }
+  console.log(characters)
 
-    getCharacters()
+  return (
+    <div className="Characters">
+        {characters.map(character => (
+            <div className="Character" key={character.id}>
+                <h2> {character.name} </h2>
 
-    // useEffect(() => {
-    //     fetch('https://anapioficeandfire.com/api/characters')
-    //         .then(response => response.json())
-    //         .then(data => setCharacters(data.results))
-    // }, []);
+                <img src={character.image} alt="Character"/>
 
-    return (
-        <div className="Characters">
-            {/* {characters.map(character => (
-                <h2>
-                    {character.name}
-                </h2>
-            ))} */}
-        </div>
-    )
+                <h4> Type: {character.species} </h4>
+                <h4> Gender: {character.gender} </h4>
+                <h4> Origin: {character.origin.name} </h4>
+            </div>
+        ))}
+    </div>
+  );
 }
 
 export default Characters;

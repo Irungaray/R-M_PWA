@@ -1,0 +1,14 @@
+.Characters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.Character {
+    flex-direction: column;
+    flex-wrap: wrap;
+    display: flex;
+    border: 3px solid grey;
+    border-radius: 5px;
+    margin: 15px;
+}
