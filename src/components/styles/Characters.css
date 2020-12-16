@@ -12,3 +12,22 @@
     border-radius: 5px;
     margin: 15px;
 }
+
+.FavList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.Icon {
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+}
+
+.delete {
+    height: 20px;
+    width: 20px;
+}
