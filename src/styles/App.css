@@ -1,0 +1,16 @@
+* {
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.DarkMode {
+  background-color: #282c34;
+  color: white;
+}
+
+.LigthMode {
+  background-color: white;
+}

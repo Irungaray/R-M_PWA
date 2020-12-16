@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Header from './components/Header'
 import Characters from './components/Characters'
 
-import './App.css';
+import './styles/App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <Header />
+  const [darkMode, setDarkMode] = useState(false);
+
+    return (
+    <div className={darkMode ? "App DarkMode" : "App LigthMode"}>
+      <Header
+        darkMode={darkMode}
+        onClick={() => setDarkMode(!darkMode)}
+      />
+
       <Characters />
     </div>
   );
