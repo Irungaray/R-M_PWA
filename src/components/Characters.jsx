@@ -48,12 +48,14 @@ const Characters = () => {
   const isCharacterInFavorites = (favorite) =>
     favorites.favorites.find((character) => character.id === favorite.id);
 
+  var favIcon = "https://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Button-Favorite-icon.png";
+  var delIcon = "https://uxwing.com/wp-content/themes/uxwing/download/01-user_interface/red-x.png";
   console.log("Favorites: ", favorites);
 
   return (
     <>
       <div className="Favorites">
-        <h2>Favorites:</h2>
+        <h2>{ (favorites.favorites.length === 0) ?  "Add your favorite characters here!" : "Favorites:"}</h2>
           {favorites.favorites.map((favorite) => (
             <li
               key={favorite.id}
@@ -61,7 +63,7 @@ const Characters = () => {
             >
               <button type="button" onClick={() => handleFavorite(favorite)}>
                 <img
-                    src="https://uxwing.com/wp-content/themes/uxwing/download/01-user_interface/red-x.png"
+                    src={delIcon}
                     alt=""
                     className="Icon delete"
                   />
@@ -85,7 +87,7 @@ const Characters = () => {
             <button type="button" onClick={() => handleFavorite(character)}>
               <img
                 className="Icon"
-                src="https://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Button-Favorite-icon.png"
+                src={!!isCharacterInFavorites(character) ? delIcon : favIcon}
                 alt=""
               />
             </button>
