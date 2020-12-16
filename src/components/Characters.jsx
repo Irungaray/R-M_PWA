@@ -13,6 +13,15 @@ const favoriteReducer = (state, action) => {
         ...state,
         favorites: [...state.favorites, action.payload],
       };
+
+    case "REMOVE_FROM_FAVORITE":
+      return {
+        ...state,
+        favorites: [
+          ...state.favorites.filter((favorite) => favorite !== action.payload),
+        ],
+      };
+
     default:
       return state;
   }
@@ -29,12 +38,17 @@ const Characters = () => {
       .catch((error) => console.warn("Error in fetch:", error));
   }, []);
 
-  const handleClick = (favorite) => {
+  const handleFavorite = (favorite) => {
     dispatch({
-      type: "ADD_TO_FAVORITE",
+      type: !!isCharacterInFavorites(favorite) ? "REMOVE_FROM_FAVORITE" : "ADD_TO_FAVORITE",
       payload: favorite,
     });
   };
+
+  const isCharacterInFavorites = (favorite) =>
+    favorites.favorites.find((character) => character.id === favorite.id);
+
+  console.log("Favorites: ", favorites);
 
   return (
     <>
@@ -45,7 +59,7 @@ const Characters = () => {
               key={favorite.id}
               className="FavList"
             >
-              <button>
+              <button type="button" onClick={() => handleFavorite(favorite)}>
                 <img
                     src="https://uxwing.com/wp-content/themes/uxwing/download/01-user_interface/red-x.png"
                     alt=""
@@ -68,7 +82,7 @@ const Characters = () => {
             <h4> Gender: {character.gender} </h4>
             <h4> Origin: {character.origin.name} </h4>
 
-            <button type="button" onClick={() => handleClick(character)}>
+            <button type="button" onClick={() => handleFavorite(character)}>
               <img
                 className="Icon"
                 src="https://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Button-Favorite-icon.png"
