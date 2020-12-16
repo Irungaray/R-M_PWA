@@ -40,7 +40,9 @@ const Characters = () => {
 
   const handleFavorite = (favorite) => {
     dispatch({
-      type: !!isCharacterInFavorites(favorite) ? "REMOVE_FROM_FAVORITE" : "ADD_TO_FAVORITE",
+      type: !!isCharacterInFavorites(favorite)
+        ? "REMOVE_FROM_FAVORITE"
+        : "ADD_TO_FAVORITE",
       payload: favorite,
     });
   };
@@ -48,29 +50,28 @@ const Characters = () => {
   const isCharacterInFavorites = (favorite) =>
     favorites.favorites.find((character) => character.id === favorite.id);
 
-  var favIcon = "https://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Button-Favorite-icon.png";
-  var delIcon = "https://uxwing.com/wp-content/themes/uxwing/download/01-user_interface/red-x.png";
+  var favIcon =
+    "https://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Button-Favorite-icon.png";
+  var delIcon =
+    "https://uxwing.com/wp-content/themes/uxwing/download/01-user_interface/red-x.png";
   console.log("Favorites: ", favorites);
 
   return (
     <>
       <div className="Favorites">
-        <h2>{ (favorites.favorites.length === 0) ?  "Add your favorite characters here!" : "Favorites:"}</h2>
-          {favorites.favorites.map((favorite) => (
-            <li
-              key={favorite.id}
-              className="FavList"
-            >
-              <button type="button" onClick={() => handleFavorite(favorite)}>
-                <img
-                    src={delIcon}
-                    alt=""
-                    className="Icon delete"
-                  />
-              </button>
-              {favorite.name}
-            </li>
-          ))}
+        <h2>
+          {favorites.favorites.length === 0
+            ? "Add your favorite characters here!"
+            : "Favorites:"}
+        </h2>
+        {favorites.favorites.map((favorite) => (
+          <li key={favorite.id} className="FavList">
+            <button type="button" onClick={() => handleFavorite(favorite)}>
+              <img src={delIcon} alt="" className="Icon delete" />
+            </button>
+            {favorite.name}
+          </li>
+        ))}
       </div>
 
       <div className="Characters">

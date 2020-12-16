@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import ThemeContext from "../context/ThemeContext";
 
-import "./styles/Header.css"
+import "./styles/Header.css";
 
 const Header = (props) => {
   const color = useContext(ThemeContext);
