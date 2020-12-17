@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useMemo
+} from "react";
 
 import "./styles/Characters.css";
 
@@ -30,6 +35,7 @@ const favoriteReducer = (state, action) => {
 const Characters = () => {
   const [characters, setCharacters] = useState([]);
   const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetch("https://rickandmortyapi.com/api/character/")
@@ -50,6 +56,22 @@ const Characters = () => {
   const isCharacterInFavorites = (favorite) =>
     favorites.favorites.find((character) => character.id === favorite.id);
 
+  const handleSearch = (event) => {
+    setSearch(event.target.value)
+  };
+
+  // Search without useMemo Hook
+  // const filteredUsers = characters.filter((user) => {
+  //   return user.name.toLowerCase().includes(search.toLowerCase())
+  // });
+
+  const filteredUsers = useMemo(() =>
+    characters.filter((user) => {
+      return user.name.toLowerCase().includes(search.toLowerCase());
+    }),
+    [characters, search]
+  );
+
   var favIcon =
     "https://icons.iconarchive.com/icons/hopstarter/soft-scraps/256/Button-Favorite-icon.png";
   var delIcon =
@@ -61,9 +83,10 @@ const Characters = () => {
       <div className="Favorites">
         <h2>
           {favorites.favorites.length === 0
-            ? "Add your favorite characters here!"
+            ? "Click the Star icon to add your favorites characters here!"
             : "Favorites:"}
         </h2>
+
         {favorites.favorites.map((favorite) => (
           <li key={favorite.id} className="FavList">
             <button type="button" onClick={() => handleFavorite(favorite)}>
@@ -74,8 +97,18 @@ const Characters = () => {
         ))}
       </div>
 
+      <div className="Search">
+        <h2>And here you can search for a specific character!</h2>
+        <input
+          type="text"
+          value={search}
+          onChange={handleSearch}
+          placeholder="Just type and see the magic..."
+        />
+      </div>
+
       <div className="Characters">
-        {characters.map((character) => (
+        {filteredUsers.map((character) => (
           <div className="Character" key={character.id}>
             <h2> {character.name} </h2>
 

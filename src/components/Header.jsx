@@ -10,7 +10,11 @@ const Header = (props) => {
   return (
     <div className="Header">
       <h1 style={{ color }}>React Hooks</h1>
-      <button type="button" onClick={() => props.onClick()}>
+      <button
+        type="button"
+        onClick={() => props.onClick()}
+        className="DarkModeButton"
+      >
         {props.darkMode ? "Set Ligth Mode" : "Set Dark Mode"}
       </button>
     </div>
