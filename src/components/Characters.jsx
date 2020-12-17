@@ -2,8 +2,12 @@ import React, {
   useState,
   useEffect,
   useReducer,
-  useMemo
+  useMemo,
+  useRef,
+  useCallback
 } from "react";
+
+import Search from "./Search";
 
 import "./styles/Characters.css";
 
@@ -36,6 +40,7 @@ const Characters = () => {
   const [characters, setCharacters] = useState([]);
   const [favorites, dispatch] = useReducer(favoriteReducer, initialState);
   const [search, setSearch] = useState('');
+  const searchInput = useRef(null);
 
   useEffect(() => {
     fetch("https://rickandmortyapi.com/api/character/")
@@ -56,15 +61,19 @@ const Characters = () => {
   const isCharacterInFavorites = (favorite) =>
     favorites.favorites.find((character) => character.id === favorite.id);
 
-  const handleSearch = (event) => {
-    setSearch(event.target.value)
-  };
+  // Search without useCallback
+  // const handleSearch = () => {
+  //   setSearch(searchInput.current.value)
+  // };
+
+  const handleSearch = useCallback(() => {
+    setSearch(searchInput.current.value)
+  }, [])
 
   // Search without useMemo Hook
   // const filteredUsers = characters.filter((user) => {
   //   return user.name.toLowerCase().includes(search.toLowerCase())
   // });
-
   const filteredUsers = useMemo(() =>
     characters.filter((user) => {
       return user.name.toLowerCase().includes(search.toLowerCase());
@@ -97,15 +106,11 @@ const Characters = () => {
         ))}
       </div>
 
-      <div className="Search">
-        <h2>And here you can search for a specific character!</h2>
-        <input
-          type="text"
-          value={search}
-          onChange={handleSearch}
-          placeholder="Just type and see the magic..."
-        />
-      </div>
+      <Search
+        search={search}
+        searchInput={searchInput}
+        handleSearch={handleSearch}
+      />
 
       <div className="Characters">
         {filteredUsers.map((character) => (
